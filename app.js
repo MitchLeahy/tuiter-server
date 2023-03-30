@@ -1,13 +1,11 @@
 import express from 'express';
 import exampleController from './controllers/example-controller.js';
 import tuitsController from './controllers/tuits-controller/index.js';
-import UserController
-  from "./controllers/users/users-controller.js"
+import UserController from "./controllers/users/users-controller.js"
 import cors from 'cors'
 import mongoose from "mongoose"
 
-const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
-mongoose.connect(CONNECTION_STRING);
+
 
 
 const app = express();
@@ -15,6 +13,9 @@ const app = express();
 // allows requests from any origin
 //needs to be right here
 app.use(cors());
+
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
+mongoose.connect(CONNECTION_STRING);
 
 app.use(express.json());
 
