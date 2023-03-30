@@ -30,7 +30,7 @@ const createTuit = async (req, res) => {
     newTuit.retuits = 0;
     newTuit.likes = 0;
     newTuit.dislikes = 0;
-    tuits.push(newTuit);
+    // tuits.push(newTuit);
     const insertedTuit = await tuitsDao
                                .createTuit(newTuit);
     res.json(insertedTuit);
