@@ -11,17 +11,17 @@ import mongoose from "mongoose"
 const app = express();
 
 
-// const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/tuiter';
 
-// mongoose.connect('mongodb+srv://Cluster65091:Amherstnh4@cluster65091.nebhxnq.mongodb.net/?retryWrites=true&w=majority/tuiter')
-// ;
-mongoose.connect('mongodb+srv://Cluster65091:Amherstnh4@cluster65091.nebhxnq.mongodb.net/tuiter?retryWrites=true&w=majority')
-    .then( () => {
-        console.log('Connected to the database ')
-    })
-    .catch( (err) => {
-        console.error(`Error connecting to the database. n${err}`);
-    })
+mongoose.connect(CONNECTION_STRING )
+;
+// mongoose.connect('mongodb+srv://Cluster65091:Amherstnh4@cluster65091.nebhxnq.mongodb.net/tuiter?retryWrites=true&w=majority')
+//     .then( () => {
+//         console.log('Connected to the database ')
+//     })
+//     .catch( (err) => {
+//         console.error(`Error connecting to the database. n${err}`);
+//     })
 //needs to be right here
 app.use(cors());
 
