@@ -1,53 +1,46 @@
-import tuitsArray from './tuits.js';
-let tuits = tuitsArray;
-
+import * as tuitsDao from '../../tuits/tuits-dao.js'
 
 
 const tuitsController = (app) => {
-
-    app.get('/tuits', (req,res) => {
-        res.send(tuits)
-    })
-    app.get('/tuits/:tid', (req,res) => {
-        const tuitId = parseInt(req.params.tid);
-        const tuit = tuits.find(t => t._id === tuitId);
-        res.send(tuit)
-    })
-
-    app.delete('/tuits/:tid', (req,res) => {
-        res.send('Deleteing tuit')
-        const tuitId = parseInt(req.params.tid);
-       tuits = tuits.filter(t => t._id !== tuitId);
-
-       res.send(200)
-
-
-    })
-
-    app.post('/tuits', (req,res) => {
-        const newTuit = req.body;
-        newTuit._id = (new Date()).getTime();
-        newTuit.liked = false;
-        newTuit.disLiked = false;
-        newTuit.replies = 0;
-        newTuit.retuits = 0;
-        newTuit.likes = 0;
-        newTuit.dislikes = 0;
-        tuits.push(newTuit);
-        res.send(200)
-    })
-    app.put('/tuits/:tid', (req,res) => {
-        const tuitdIdToUpdate = req.params.tid;
-        const updates = req.body;
-        const tuitIndex = tuits.findIndex(
-          (t) => t._id === tuitdIdToUpdate)
-        tuits[tuitIndex] = 
-          {...tuits[tuitIndex], ...updates};
-        res.sendStatus(200);
-      })
-      
-
+    app.get('/tuits', findTuits);
+    app.delete('/tuits/:tid', deleteTuit);
+    app.put('/tuits/:tid', updateTuit);
+    app.post('/tuits', createTuit);
 
 };
+
+const findTuits = async (req, res) => {
+    const tuits = await tuitsDao.findTuits()
+    res.json(tuits);
+ }
+
+
+const deleteTuit = async (req, res) => {
+    const tuitdIdToDelete = req.params.tid;
+    const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
+    res.json(status);
+  }
+  
+const createTuit = async (req, res) => {
+    const newTuit = req.body;
+
+    newTuit.liked = false;
+    newTuit.disLiked = false;
+    newTuit.replies = 0;
+    newTuit.retuits = 0;
+    newTuit.likes = 0;
+    newTuit.dislikes = 0;
+    tuits.push(newTuit);
+    const insertedTuit = await tuitsDao
+                               .createTuit(newTuit);
+    res.json(insertedTuit);
+  }
+  const updateTuit = async (req, res) => {
+    const tuitdIdToUpdate = req.params.tid;
+    const updates = req.body;
+    const status = await tuitsDao.updateTuit(tuitdIdToUpdate, updates);
+    res.json(status);
+  }
+  
 
 export default tuitsController;
